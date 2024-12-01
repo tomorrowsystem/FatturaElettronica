@@ -142,8 +142,12 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->descriptions;
     }
 
-    public function addDescription(string $description): DigitalDocumentInstanceInterface
+    public function addDescription(?string $description): DigitalDocumentInstanceInterface
     {
+        if ($description === null || $description === '') {
+            return $this;
+        }
+
         $this->descriptions[] = $description;
 
         return $this;

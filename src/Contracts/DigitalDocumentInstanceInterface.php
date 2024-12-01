@@ -19,7 +19,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getDescriptions(): array;
 
-    public function addDescription(string $description): DigitalDocumentInstanceInterface;
+    public function addDescription(?string $description): DigitalDocumentInstanceInterface;
 
     public function getDocumentDate(): ?DateTime;
 
