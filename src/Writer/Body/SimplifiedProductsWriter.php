@@ -20,7 +20,7 @@ class SimplifiedProductsWriter extends AbstractBodyWriter
             $datiBeniServizi = $this->xml->addChild('DatiBeniServizi');
 
             $datiBeniServizi->addChild('Descrizione', SimpleXmlExtended::sanitizeText($line->getDescription()));
-            $datiBeniServizi->addChild('Importo', SimpleXmlExtended::sanitizeFloat($line->getTotal()));
+            $datiBeniServizi->addChild('Importo', SimpleXmlExtended::sanitizeFloat($line->getTotal(), $this->body->getPrecision('product_total')));
 
             if ($line->getTaxAmount() || $line->getTaxPercentage()) {
                 $datiIVA = $datiBeniServizi->addChild('DatiIVA');

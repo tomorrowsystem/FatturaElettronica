@@ -42,7 +42,7 @@ class PaymentsWriter extends AbstractBodyWriter
                     $amount = 0;
                 }
 
-                $dettalioPagamento->addChild('ImportoPagamento', number_format(round($amount, 2), 2, '.', ''));
+                $dettalioPagamento->addChild('ImportoPagamento', SimpleXmlExtended::sanitizeFloat($amount));
 
                 if ($details->getPostalOfficeCode() !== null) {
                     $dettalioPagamento->addChild('CodUfficioPostale', SimpleXmlExtended::sanitizeText($details->getPostalOfficeCode()));

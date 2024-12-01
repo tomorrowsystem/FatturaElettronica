@@ -23,6 +23,9 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 {
     use Arrayable;
 
+    /** @var array[string]int */
+    protected $precisions;
+
     /** @var DocumentType */
     protected $documentType;
 
@@ -124,6 +127,18 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var AttachmentInterface[] */
     protected $attachments = [];
+
+    public function getPrecision(string $key): int
+    {
+        return $this->precisions[$key] ?? 8;
+    }
+
+    public function setPrecisions(array $map): DigitalDocumentInstanceInterface
+    {
+        $this->precisions = $map;
+
+        return $this;
+    }
 
     public function getRounding(): ?float
     {

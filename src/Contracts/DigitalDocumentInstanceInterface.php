@@ -13,6 +13,10 @@ use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 
 interface DigitalDocumentInstanceInterface
 {
+    public function getPrecision(string $key): int;
+
+    public function setPrecisions(array $map): DigitalDocumentInstanceInterface;
+    
     public function getRounding(): ?float;
 
     public function setRounding(?float $rounding): DigitalDocumentInstanceInterface;

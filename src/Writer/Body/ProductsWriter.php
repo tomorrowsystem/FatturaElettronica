@@ -44,7 +44,7 @@ class ProductsWriter extends AbstractBodyWriter
         $importoEnasarco = $otherData->getNumber();
         if ($importoEnasarco !== null) {
             if ($importoEnasarco <= 0) {
-                $importoEnasarco = 0.00;
+                $importoEnasarco = 0;
             }
 
             $altriDatiGestionali->addChild('RiferimentoNumero', SimpleXmlExtended::sanitizeFloat($importoEnasarco));
@@ -72,7 +72,7 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         if ($discount->getAmount() !== null) {
-            $scontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($discount->getAmount()));
+            $scontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($discount->getAmount(), $this->body->getPrecision('discount_amount')));
         }
     }
 
@@ -117,7 +117,7 @@ class ProductsWriter extends AbstractBodyWriter
 
         $quantita = $line->getQuantity();
         if ($quantita !== null) {
-            $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita, 8));
+            $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita, $this->body->getPrecision('product_quantity')));
         }
 
         if ($line->getUnit() !== null) {
@@ -132,7 +132,7 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $dettaglioLinee->addChild('PrezzoUnitario', SimpleXmlExtended::sanitizeFloat($line->getUnitPrice(), 8));
+        $dettaglioLinee->addChild('PrezzoUnitario', SimpleXmlExtended::sanitizeFloat($line->getUnitPrice(), $this->body->getPrecision('product_unit_price')));
 
         $discounts = $line->getDiscounts();
         if (count($discounts) > 0) {
@@ -142,7 +142,7 @@ class ProductsWriter extends AbstractBodyWriter
             }
         }
 
-        $dettaglioLinee->addChild('PrezzoTotale', SimpleXmlExtended::sanitizeFloat($line->getTotal(), 8));
+        $dettaglioLinee->addChild('PrezzoTotale', SimpleXmlExtended::sanitizeFloat($line->getTotal(), $this->body->getPrecision('product_total')));
 
         $dettaglioLinee->addChild('AliquotaIVA', SimpleXmlExtended::sanitizeFloat($line->getTaxPercentage()));
 
@@ -189,17 +189,17 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         if ($summary->getRounding() !== null) {
-            $datiRiepilogo->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($summary->getRounding(), 8));
+            $datiRiepilogo->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($summary->getRounding(), $this->body->getPrecision('summary_rounding')));
         }
 
         $imponibileImporto = $summary->getTotal();
         if (empty($imponibileImporto)) {
-            $imponibileImporto = 0.00;
+            $imponibileImporto = 0;
         }
 
         $imposta = $summary->getTaxAmount();
         if (empty($imposta)) {
-            $imposta = 0.00;
+            $imposta = 0;
         }
 
         $datiRiepilogo->addChild('ImponibileImporto', SimpleXmlExtended::sanitizeFloat($imponibileImporto));
