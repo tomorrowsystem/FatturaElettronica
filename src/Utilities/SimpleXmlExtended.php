@@ -58,6 +58,7 @@ class SimpleXmlExtended extends SimpleXMLElement
 
     public static function sanitizeFloat(float $amount, $precision = 2): string
     {
-        return number_format(round($amount, $precision), $precision, '.', '');
+        return $amount;
+        // return number_format(round($amount, $precision), $precision, '.', '');
     }
 }
